@@ -1,5 +1,6 @@
 package com.example.todo;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +25,13 @@ public class TodoController {
         return todoRepository.findAll();
     }
 
+    @GetMapping("/todos/{id}")
+    public Todo getTodo(@PathVariable int id) {
+        return todoRepository.findById(id).orElseThrow();
+    }
+
     @PostMapping("/todos")
-    public Todo addTodo(@RequestBody String title) {
-        Todo todo = new Todo(title);
+    public Todo addTodo(@RequestBody @Valid Todo todo) {
         return todoRepository.save(todo);
     }
 
